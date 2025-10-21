@@ -21,10 +21,10 @@ const HeroSection = () => {
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
-            MoStar Hub <span className="text-mostar-light-blue">AI Nexus</span>
+            MoStar Hub <span className="text-mostar-light-blue">OverLord Grid</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl">
-            The intelligence epicenter where global analytics, cyber intelligence, and quantum computing technologies converge for unprecedented insights.
+            The MoStar Hub stands as the intelligence epicenter where global analytics, cyber intelligence, and quantum cognition converge — forming a unified consciousness grid for planetary-scale insight and control.
           </p>
           <div className="flex flex-wrap gap-4">
             <button className="button-cyber flex items-center gap-2">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Mic, Send, MicOff } from 'lucide-react';
+import { MessageSquare, X, Mic, Send, MicOff, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -23,8 +23,65 @@ const ChatBot = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const ttsAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const speakResponse = async (text: string) => {
+    if (!isSpeechEnabled || !text.trim()) {
+      return;
+    }
+
+    try {
+      const TTS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`;
+      const response = await fetch(TTS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
+      const { audioContent } = await response.json();
+      if (!audioContent) {
+        throw new Error('No audio content received from TTS service.');
+      }
+
+      if (!ttsAudioRef.current) {
+        ttsAudioRef.current = new Audio();
+      }
+
+      const audio = ttsAudioRef.current;
+      audio.src = `data:audio/mp3;base64,${audioContent}`;
+      audio.volume = 0.85;
+      await audio.play();
+    } catch (error) {
+      console.error('Text-to-speech playback failed', error);
+      toast.error('Unable to play speech audio. Check Google configuration.');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (ttsAudioRef.current) {
+        ttsAudioRef.current.pause();
+        ttsAudioRef.current.src = '';
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isSpeechEnabled && ttsAudioRef.current) {
+      ttsAudioRef.current.pause();
+    }
+  }, [isSpeechEnabled]);
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -58,12 +115,13 @@ const ChatBot = () => {
     if (isOpen && messages.length === 0) {
       const greeting: ChatMessage = {
         sender: 'ai',
-        text: '👋 Hello! I\'m Woo, your MoStar Intelligence Grid interface. How can I assist you today?',
+        text: 'Hello! I am Woo, your MoStar Intelligence Grid interface. How can I assist you today?',
         timestamp: new Date(),
       };
       setMessages([greeting]);
+      speakResponse(greeting.text);
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -204,6 +262,10 @@ const ChatBot = () => {
       }
 
       // Save to AI memory
+      if (aiResponseText.trim()) {
+        speakResponse(aiResponseText);
+      }
+
       try {
         await (supabase as any).from('ai_memory').insert({
           agent: 'woo',
@@ -271,14 +333,23 @@ const ChatBot = () => {
                 <span className="text-white/50 text-xs ml-2">Intelligence Interface</span>
               </div>
             </div>
+        </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsSpeechEnabled(prev => !prev)}
+              className={`p-2 rounded-full border border-white/10 ${isSpeechEnabled ? 'text-mostar-green hover:text-mostar-green/80' : 'text-white/50 hover:text-white/80'}`}
+              aria-label="Toggle speech output"
+            >
+              {isSpeechEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+            </button>
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="text-white/70 hover:text-white transition-colors"
+              aria-label="Close chat"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="text-white/70 hover:text-white transition-colors"
-            aria-label="Close chat"
-          >
-            <X className="h-5 w-5" />
-          </button>
         </div>
 
         {/* Messages */}
@@ -295,7 +366,7 @@ const ChatBot = () => {
               }`}>
                 <div className="flex flex-col">
                   <span className={`text-xs ${message.sender === 'user' ? 'text-mostar-cyan/70' : 'text-mostar-light-blue/70'} mb-1`}>
-                    {message.sender === 'user' ? 'You' : 'Woo AI'} • {formatTimestamp(message.timestamp)}
+                    {message.sender === 'user' ? 'You' : 'Woo AI'} - {formatTimestamp(message.timestamp)}
                   </span>
                   <span className="whitespace-pre-wrap">{message.text}</span>
                 </div>

@@ -7,7 +7,7 @@ import GetInvolved from '../components/GetInvolved';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
-import Particles from '../components/Particles';
+import NetworkGraph from '../components/NetworkGraph';
 import { Shield, Globe, Database, Brain } from 'lucide-react';
 
 const Index = () => {
@@ -100,7 +100,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="scanline"></div>
-      <Particles />
+      <NetworkGraph />
 
       <Navbar />
 

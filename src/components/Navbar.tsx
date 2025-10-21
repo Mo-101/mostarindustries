@@ -48,9 +48,9 @@ const Navbar = () => {
           <Link to="/" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Home
           </Link>
-          <a href="/#technologies" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+          <Link to="/technologies" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Technologies
-          </a>
+          </Link>
           <a href="/#dashboard" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Dashboard
           </a>
@@ -93,13 +93,13 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <a
-            href="/#technologies"
+          <Link
+            to="/technologies"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Technologies
-          </a>
+          </Link>
           <a
             href="/#dashboard"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
