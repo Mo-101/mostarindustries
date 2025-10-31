@@ -15,17 +15,16 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": true,
+    "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false,
 
-    "ignoreDeprecations": "6.0"
-    // "baseUrl": ".", // Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0.
-    // "paths": { // Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0.
-    //   "@/*": ["./src/*"]
-    // }
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }

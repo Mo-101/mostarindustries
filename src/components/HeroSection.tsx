@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import HeroNetworkGraph from './HeroNetworkGraph';
+import Globe from './Globe';
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -84,7 +84,19 @@ const HeroSection = () => {
           </div>
           
           <div className={`relative h-[500px] transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <HeroNetworkGraph />
+            {/* Futuristic globe visualization */}
+            <Globe />
+            
+            {/* Data streams floating around the globe */}
+            <div className="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 flex flex-col glassmorphism p-3 rounded-lg shadow-neon-blue animate-float">
+              <div className="text-xs font-mono text-mostar-light-blue">SECURITY ALERT</div>
+              <div className="text-white/70 text-xs">Threat neutralized: 23.45.67.89</div>
+            </div>
+            
+            <div className="absolute bottom-1/3 right-1/4 transform translate-x-1/2 translate-y-1/2 flex flex-col glassmorphism p-3 rounded-lg shadow-neon-green animate-float animate-delay-1000">
+              <div className="text-xs font-mono text-mostar-green">DATA STREAM</div>
+              <div className="text-white/70 text-xs">Processing 24.7 TB/second</div>
+            </div>
           </div>
         </div>
       </div>
