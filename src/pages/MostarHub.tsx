@@ -14,6 +14,8 @@ import CommandTab from '../components/hub/tabs/CommandTab';
 import MusicPlayer from '../components/hub/MusicPlayer';
 import { fetchAINodes } from '../services/aiNodeService';
 import { ActivityFeedItem, ChartDataPoint } from '../types/ai-hub';
+import EnvStatusGrid from '../components/system/EnvStatusGrid';
+
 
 const MostarHub = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -145,6 +147,8 @@ const MostarHub = () => {
   }
 
   return (
+    
+    
     <div className="min-h-screen flex flex-col">
       <div className="scanline"></div>
       <Navbar />
