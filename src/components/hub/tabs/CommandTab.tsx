@@ -246,6 +246,8 @@ Operational efficiency +3.5%.
                   ? 'text-white/30 cursor-not-allowed'
                   : 'text-mostar-cyan hover:bg-mostar-cyan/10'
                 }`}
+                title="Send command"
+                aria-label="Send command"
               >
                 <Send className="h-4 w-4" />
               </button>

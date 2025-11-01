@@ -69,7 +69,7 @@ const envDefinitions = {
     optional: true,
   },
   googleOAuthClient: {
-    keys: ['VITE_OAUTH_2_0_CLIENT_ID', 'VITE_OAUTH_2.0_CLIENT_ID'] as const,
+keys: ['VITE_OAUTH_2_0_CLIENT_ID'] as const,
     label: 'Google OAuth client ID',
     optional: true,
     exposeValue: true,

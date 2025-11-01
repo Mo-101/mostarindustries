@@ -122,6 +122,7 @@
   .tech-card {
     @apply relative overflow-hidden rounded-lg border border-white/10 p-6 transition-all duration-300;
     background: rgba(10, 14, 23, 0.5);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
   
